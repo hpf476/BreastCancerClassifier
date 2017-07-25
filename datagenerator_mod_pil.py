@@ -44,11 +44,11 @@ class ImageDataGenerator_r:
             self.images = []
             self.labels = []
             for l in lines:
-                items = l.strip().split(' ')
-                
-                
-                z=os.path.basename(items[0])
+                items = l.strip().split()
+                #z=os.path.basename(items[0])
+                z=items[0]
                 z=os.path.join(replacementpath,z)
+
                 
                 self.images.append(z)
                 self.labels.append(int(items[1]))
