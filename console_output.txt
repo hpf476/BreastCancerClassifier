@@ -1,0 +1,21 @@
+2017-07-25 03:56:26.840496: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:893] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2017-07-25 03:56:26.841002: I tensorflow/core/common_runtime/gpu/gpu_device.cc:938] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:00:1e.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+2017-07-25 03:56:26.841021: I tensorflow/core/common_runtime/gpu/gpu_device.cc:959] DMA: 0 
+2017-07-25 03:56:26.841027: I tensorflow/core/common_runtime/gpu/gpu_device.cc:969] 0:   Y 
+2017-07-25 03:56:26.841041: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1028] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0)
+2017-07-25 03:56:28.810067 Start training...
+2017-07-25 03:56:28.810124 Open Tensorboard at --logdir ./tmp/finetune_alexnet/dogs_vs_cats
+2017-07-25 03:56:28.810136 Epoch number: 1
+Traceback (most recent call last):
+  File "finetune_pil.py", line 145, in <module>
+    batch_xs, batch_ys = train_generator.next_batch(batch_size)
+  File "/home/ubuntu/workspace_ami/codes/finetune/datagenerator_mod_pil.py", line 136, in next_batch
+    img0 = PIL.Image.open(paths[i])
+  File "/home/ubuntu/.local/lib/python3.5/site-packages/PIL/Image.py", line 2410, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/ubuntu/workspace_ami/breakhis_data/SOB_B_F-14-21998EF-200-026.png'

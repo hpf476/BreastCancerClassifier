@@ -44,7 +44,7 @@ class ImageDataGenerator_r:
             self.images = []
             self.labels = []
             for l in lines:
-                items = l.strip().split()
+                items = l.strip().split(' ')
                 
                 
                 z=os.path.basename(items[0])
