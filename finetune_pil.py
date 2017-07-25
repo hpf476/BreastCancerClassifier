@@ -23,9 +23,9 @@ Configuration settings
 """
 
 # Path to the textfiles for the trainings and validation set
-train_file = '/home/ubuntu/workspace_ami/flowers_data/trainfile.txt'
-val_file = '/home/ubuntu/workspace_ami/flowers_data/valtestfile.txt'
-replacementpath='/home/ubuntu/workspace_ami/flowers_data/jpg/'
+train_file = '/home/ubuntu/workspace_ami/breakhis_data/train_val_test_60_12_28/non_shuffled/split1/200X_train.txt'
+val_file = '/home/ubuntu/workspace_ami/breakhis_data/train_val_test_60_12_28/non_shuffled/split1/200X_val.txt'
+replacementpath='/home/ubuntu/workspace_ami/breakhis_data/'
 
 is_training=True
 
