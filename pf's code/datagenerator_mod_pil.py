@@ -126,7 +126,7 @@ class ImageDataGenerator_r:
 
         #update pointer
         self.pointer += batch_size
-        patchSize = (32,32) # for defining the crop size
+        patchSize = (227,227) # for defining the crop size
         img_list = []
         label_list = []
 
@@ -135,7 +135,7 @@ class ImageDataGenerator_r:
             # print(paths[i])
             img0 = PIL.Image.open(paths[i]) # Read images
             # rescale image
-            img0 = img0.resize((self.scale_size[1], self.scale_size[0]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
+            # img0 = img0.resize((self.scale_size[1], self.scale_size[0]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
 
             img = np.array(img0,dtype=np.float32)   # convert image into array format
 

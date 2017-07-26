@@ -134,9 +134,10 @@ class ImageDataGenerator_r:
             #print(paths[i])
 
             img0 = PIL.Image.open(paths[i])
+
             #flip image at random if flag is selected
             if self.horizontal_flip and np.random.random() < 0.5:
-                img0=img0.transpose(PIL.Image.FLIP_LEFT_RIGHT) #error! axis don't match 
+                img0=img0.transpose(PIL.Image.FLIP_LEFT_RIGHT)
 
             #rescale image
             img0=img0.resize( (self.scale_size[0], self.scale_size[1]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
