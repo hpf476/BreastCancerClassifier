@@ -150,7 +150,7 @@ class ImageDataGenerator_r:
 
                 if self.horizontal_flip and np.random.random() < 0.5:   # randomly flips image
                     crop = crop.transpose(PIL.Image.FLIP_LEFT_RIGHT)
-                crop -= self.mean   # normalize every patch
+                # crop -= self.mean   # normalize every patch
                 img_list.append(crop)
                 label_list.append(labels[i])
 

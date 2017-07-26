@@ -1,6 +1,6 @@
 import numpy as np
 import PIL.Image
-
+import matplotlib.pyplot as plt
 import os
 
 import copy
@@ -148,6 +148,8 @@ class ImageDataGenerator_r:
 
             #subtract mean
             img -= self.mean
+            plt.imshow(img)
+            plt.show()
 
             images[i] = img
 
@@ -158,3 +160,9 @@ class ImageDataGenerator_r:
 
         #return array of images and labels
         return images, one_hot_labels
+
+replacementpath = "/home/pf1404/Documents/ai_coding_tasks/project/"
+train_file = "/home/pf1404/Documents/ai_coding_tasks/project/40X_train.txt"
+
+gen = ImageDataGenerator_r(train_file, replacementpath)
+gen.next_batch()
