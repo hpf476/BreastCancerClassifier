@@ -1,0 +1,104 @@
+ubuntu@ip-172-31-3-21:~/workspace_ami/codes/finetune$ python finetune_pil.py
+2017-07-27 19:37:34.604437: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:893] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2017-07-27 19:37:34.604935: I tensorflow/core/common_runtime/gpu/gpu_device.cc:938] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:00:1e.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+2017-07-27 19:37:34.604960: I tensorflow/core/common_runtime/gpu/gpu_device.cc:959] DMA: 0 
+2017-07-27 19:37:34.604971: I tensorflow/core/common_runtime/gpu/gpu_device.cc:969] 0:   Y 
+2017-07-27 19:37:34.604987: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1028] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:00:1e.0)
+2017-07-27 19:37:35.380542 Start training...
+2017-07-27 19:37:35.380655 Open Tensorboard at --logdir ./tmp/finetune_alexnet/dogs_vs_cats
+2017-07-27 19:37:35.380682 Epoch number: 1
+2017-07-27 19:41:05.359603 Start validation
+2017-07-27 19:41:29.582730 defaultvalidation Accuracy = 0.6660
+2017-07-27 19:41:29.585531 Epoch number: 2
+2017-07-27 19:42:11.933511 Start validation
+2017-07-27 19:42:14.887191 defaultvalidation Accuracy = 0.5645
+2017-07-27 19:42:14.889968 Epoch number: 3
+2017-07-27 19:42:54.313008 Start validation
+2017-07-27 19:42:57.279207 defaultvalidation Accuracy = 0.5547
+2017-07-27 19:42:57.281986 Epoch number: 4
+2017-07-27 19:43:36.001547 Start validation
+2017-07-27 19:43:38.964060 defaultvalidation Accuracy = 0.6621
+2017-07-27 19:43:38.966839 Epoch number: 5
+2017-07-27 19:44:17.121679 Start validation
+2017-07-27 19:44:20.110345 defaultvalidation Accuracy = 0.7646
+2017-07-27 19:44:20.113185 Epoch number: 6
+2017-07-27 19:44:58.125488 Start validation
+2017-07-27 19:45:01.087268 defaultvalidation Accuracy = 0.7783
+2017-07-27 19:45:01.090113 Epoch number: 7
+2017-07-27 19:45:38.896997 Start validation
+2017-07-27 19:45:41.872305 defaultvalidation Accuracy = 0.7930
+2017-07-27 19:45:41.875051 Epoch number: 8
+2017-07-27 19:46:19.846842 Start validation
+2017-07-27 19:46:22.863923 defaultvalidation Accuracy = 0.7021
+2017-07-27 19:46:22.866745 Epoch number: 9
+2017-07-27 19:47:01.234602 Start validation
+2017-07-27 19:47:04.189170 defaultvalidation Accuracy = 0.7939
+2017-07-27 19:47:04.191957 Epoch number: 10
+2017-07-27 19:47:42.101617 Start validation
+2017-07-27 19:47:45.065171 defaultvalidation Accuracy = 0.7988
+2017-07-27 19:47:45.068055 Epoch number: 11
+2017-07-27 19:48:23.828407 Start validation
+2017-07-27 19:48:26.793640 defaultvalidation Accuracy = 0.7783
+2017-07-27 19:48:26.796489 Epoch number: 12
+2017-07-27 19:49:04.883276 Start validation
+2017-07-27 19:49:07.811733 defaultvalidation Accuracy = 0.7969
+2017-07-27 19:49:07.814501 Epoch number: 13
+2017-07-27 19:49:46.163145 Start validation
+2017-07-27 19:49:49.116122 defaultvalidation Accuracy = 0.7803
+2017-07-27 19:49:49.118910 Epoch number: 14
+2017-07-27 19:50:27.947953 Start validation
+2017-07-27 19:50:30.910966 defaultvalidation Accuracy = 0.7783
+2017-07-27 19:50:30.913665 Epoch number: 15
+2017-07-27 19:51:10.216845 Start validation
+2017-07-27 19:51:13.166275 defaultvalidation Accuracy = 0.8076
+2017-07-27 19:51:13.169019 Epoch number: 16
+2017-07-27 19:51:51.740264 Start validation
+2017-07-27 19:51:54.670141 defaultvalidation Accuracy = 0.7471
+2017-07-27 19:51:54.672879 Epoch number: 17
+2017-07-27 19:52:33.848095 Start validation
+2017-07-27 19:52:36.826908 defaultvalidation Accuracy = 0.7812
+2017-07-27 19:52:36.829610 Epoch number: 18
+2017-07-27 19:53:15.506764 Start validation
+2017-07-27 19:53:18.514731 defaultvalidation Accuracy = 0.7920
+2017-07-27 19:53:18.517479 Epoch number: 19
+2017-07-27 19:53:56.416113 Start validation
+2017-07-27 19:53:59.356665 defaultvalidation Accuracy = 0.8027
+2017-07-27 19:53:59.359395 Epoch number: 20
+2017-07-27 19:54:38.706693 Start validation
+2017-07-27 19:54:41.661620 defaultvalidation Accuracy = 0.7842
+2017-07-27 19:54:41.664314 Epoch number: 21
+2017-07-27 19:55:19.956556 Start validation
+2017-07-27 19:55:22.905309 defaultvalidation Accuracy = 0.7881
+2017-07-27 19:55:22.908069 Epoch number: 22
+2017-07-27 19:56:02.157655 Start validation
+2017-07-27 19:56:05.106106 defaultvalidation Accuracy = 0.8174
+2017-07-27 19:56:05.108831 Epoch number: 23
+2017-07-27 19:56:43.944654 Start validation
+2017-07-27 19:56:46.904308 defaultvalidation Accuracy = 0.7871
+2017-07-27 19:56:46.907062 Epoch number: 24
+2017-07-27 19:57:25.671380 Start validation
+2017-07-27 19:57:28.630436 defaultvalidation Accuracy = 0.7666
+2017-07-27 19:57:28.633187 Epoch number: 25
+2017-07-27 19:58:07.279224 Start validation
+2017-07-27 19:58:10.198247 defaultvalidation Accuracy = 0.7988
+2017-07-27 19:58:10.200978 Epoch number: 26
+2017-07-27 19:58:48.445695 Start validation
+2017-07-27 19:58:51.359951 defaultvalidation Accuracy = 0.8096
+2017-07-27 19:58:51.362650 Epoch number: 27
+2017-07-27 19:59:29.848615 Start validation
+2017-07-27 19:59:32.817434 defaultvalidation Accuracy = 0.7832
+2017-07-27 19:59:32.820182 Epoch number: 28
+2017-07-27 20:00:11.740554 Start validation
+2017-07-27 20:00:14.697009 defaultvalidation Accuracy = 0.7891
+2017-07-27 20:00:14.699702 Epoch number: 29
+2017-07-27 20:00:53.181029 Start validation
+2017-07-27 20:00:56.188324 defaultvalidation Accuracy = 0.7871
+2017-07-27 20:00:56.191027 Epoch number: 30
+2017-07-27 20:01:34.637333 Start validation
+2017-07-27 20:01:37.588023 defaultvalidation Accuracy = 0.8047
+

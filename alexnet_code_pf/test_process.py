@@ -40,7 +40,7 @@ def next_batch(batch_size, images, labels):
     #update pointer
     #pointer += batch_size
     n_classes = 2
-    patchSize = (277,277)
+    patchSize = (227,227)
     mean = np.array([104., 117., 124.])
     scale_size=(350, 230)
     horizontal_flip = False
@@ -75,7 +75,7 @@ def next_batch(batch_size, images, labels):
           label_list.append(labels[i])
 
 # ------------------ READ HERE ZAIZAI-------------------------------------
-      temp = random.sample(list(enumerate(images)), 2)
+      temp = random.sample(list(enumerate(images)), 8)
       # This enumerates through the images from a single crop cycle
       # Then, it samples 2 of (index, image) from that list
       for idx, val in temp: # seperate the tuples into index and image
@@ -96,7 +96,7 @@ def next_batch(batch_size, images, labels):
     print ("hi", len(images))
     print ("One hot labels: ", one_hot_labels.shape)
     #return array of images and labels
-    return images, one_hot_labels
+    return image_matrix, one_hot_labels
 
 def resize_and_extract_overlapping(im, patchSize):
   # step size should be 0.5 * image dim, and windowSize = 32x32
@@ -112,7 +112,7 @@ replacementpath = "/home/pf1404/Documents/ai_coding_tasks/project/"
 train_file = "/home/pf1404/Documents/ai_coding_tasks/project/40X_train.txt"
 
 images, labels = read_class_list_mod(train_file, replacementpath)
-image_mat, one_hot_labels = next_batch(2, images, labels)
+image_mat, one_hot_labels = next_batch(3, images, labels)
 # im = "/home/pf1404/Documents/ai_coding_tasks/project/test_images/adenoma200.png"
 # img0 = PIL.Image.open(im)
 #

@@ -1,0 +1,4 @@
+bs = batch size
+p = number of patches per image
+3 = number of epochs
+

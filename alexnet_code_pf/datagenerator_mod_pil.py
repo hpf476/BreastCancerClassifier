@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import PIL.Image
 
 import os
@@ -126,7 +127,7 @@ class ImageDataGenerator_r:
 
         #update pointer
         self.pointer += batch_size
-        patchSize = (227,227) # for defining the crop size
+        patchSize = (32*3,32*3) # for defining the crop size
 
         randomized_img_list = []
         randomized_label_list = []
@@ -140,11 +141,12 @@ class ImageDataGenerator_r:
             img0 = PIL.Image.open(paths[i]) # Read images
 
             # rescale image
-            # img0 = img0.resize((self.scale_size[1], self.scale_size[0]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
+            img0 = img0.resize((self.scale_size[1], self.scale_size[0]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
             img = np.array(img0,dtype=np.float32)   # convert image into array format
 
             if(img.ndim>3):
                 img=img[:,:,0:3]
+
             img=img[:,:,[2,1,0]]
 
             for (x,y,crop) in resize_and_extract_overlapping(img, patchSize):
@@ -158,25 +160,25 @@ class ImageDataGenerator_r:
                 images.append(crop)
                 label_list.append(labels[i])
 
-        temp = random.sample(list(enumerate(images)), 5)
+            temp = random.sample(list(enumerate(images)), 18)
         # This enumerates through the images from a single crop cycle
         # Then, it samples 2 of (index, image) from that list
-        for idx, val in temp: # seperate the tuples into index and image
-            randomized_label_list.append(label_list[idx]) # append label to a new list
-            randomized_img_list.append(val)   # append image to new list
+            for idx, val in temp: # seperate the tuples into index and image
+                randomized_label_list.append(label_list[idx]) # append label to a new list
+                randomized_img_list.append(val)   # append image to new list
 
         image_matrix = np.ndarray([len(randomized_img_list), patchSize[0], patchSize[1], 3])
         for i in range(len(randomized_img_list)):
             image_matrix[i] = randomized_img_list[i]
 
         # Expand labels to one hot encoding
-        one_hot_labels = np.zeros((len(randomized_img_list), n_classes))
+        one_hot_labels = np.zeros((len(randomized_img_list), self.n_classes))
         for i in range(len(randomized_label_list)):
             one_hot_labels[i][randomized_label_list[i]] = 1
 
         # print ("Size of image list: ",len(images))
         # print ("Length of labels: ",len(one_hot_labels))
-        #return array of images and labels
+        # return array of images and labels
         return image_matrix, one_hot_labels
 
 def resize_and_extract_overlapping(im, patchSize):
@@ -184,7 +186,6 @@ def resize_and_extract_overlapping(im, patchSize):
   stepSize = (int(round(patchSize[0]/2)), int(round(patchSize[1]/2)))
   imgDim = (im.shape[0], im.shape[1])
   for y in range(0, imgDim[1], stepSize[1]):
-      print (y)
       for x in range(0, imgDim[0], stepSize[0]):
           crop = im[x:x+patchSize[0], y:y + patchSize[1]]
           yield (x,y,crop) # yield gives back a generator object
