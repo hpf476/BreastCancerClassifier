@@ -127,16 +127,20 @@ class ImageDataGenerator_r:
         #update pointer
         self.pointer += batch_size
         patchSize = (227,227) # for defining the crop size
-        img_list = []
-        label_list = []
+
+        randomized_img_list = []
+        randomized_label_list = []
 
         images = np.ndarray([batch_size, self.scale_size[0], self.scale_size[1], 3])
         for i in range(len(paths)):
-            # print(paths[i])
+            images = []
+            label_list = []
+            temp = []
+
             img0 = PIL.Image.open(paths[i]) # Read images
+
             # rescale image
             # img0 = img0.resize((self.scale_size[1], self.scale_size[0]),PIL.Image.LANCZOS) # PIL.Image.BICUBIC)
-
             img = np.array(img0,dtype=np.float32)   # convert image into array format
 
             if(img.ndim>3):
@@ -151,18 +155,24 @@ class ImageDataGenerator_r:
                 if self.horizontal_flip and np.random.random() < 0.5:   # randomly flips image
                     crop = crop.transpose(PIL.Image.FLIP_LEFT_RIGHT)
                 # crop -= self.mean   # normalize every patch
-                img_list.append(crop)
+                images.append(crop)
                 label_list.append(labels[i])
 
-        image_matrix = np.ndarray([len(img_list), patchSize[0], patchSize[1], 3])
-        for i in range(len(images)):
-            # put all images into array
-            image_matrix[i] = img_list[i]
+        temp = random.sample(list(enumerate(images)), 5)
+        # This enumerates through the images from a single crop cycle
+        # Then, it samples 2 of (index, image) from that list
+        for idx, val in temp: # seperate the tuples into index and image
+            randomized_label_list.append(label_list[idx]) # append label to a new list
+            randomized_img_list.append(val)   # append image to new list
+
+        image_matrix = np.ndarray([len(randomized_img_list), patchSize[0], patchSize[1], 3])
+        for i in range(len(randomized_img_list)):
+            image_matrix[i] = randomized_img_list[i]
 
         # Expand labels to one hot encoding
-        one_hot_labels = np.zeros((len(label_list), self.n_classes))
-        for i in range(len(label_list)):
-            one_hot_labels[i][label_list[i]] = 1
+        one_hot_labels = np.zeros((len(randomized_img_list), n_classes))
+        for i in range(len(randomized_label_list)):
+            one_hot_labels[i][randomized_label_list[i]] = 1
 
         # print ("Size of image list: ",len(images))
         # print ("Length of labels: ",len(one_hot_labels))
