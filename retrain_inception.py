@@ -103,6 +103,7 @@ import re
 import sys
 import tarfile
 from PIL import Image
+from io import BytesIO
 
 import numpy as np
 from six.moves import urllib
@@ -125,8 +126,8 @@ MODEL_FILENAME = 'classify_image_graph_def.pb'
 BOTTLENECK_TENSOR_NAME = 'pool_3/_reshape:0'
 BOTTLENECK_TENSOR_SIZE = 2048
 RESIZED_INPUT_TENSOR_NAME = 'Mul:0'
-# JPEG_DATA_TENSOR_NAME = 'DecodeJpeg/contents:0'
-JPEG_DATA_TENSOR_NAME = 'DecodeJpeg:0'
+JPEG_DATA_TENSOR_NAME = 'DecodeJpeg/contents:0'
+# JPEG_DATA_TENSOR_NAME = 'DecodeJpeg:0'
 INPUT_WIDTH = 299
 INPUT_HEIGHT=299
 INPUT_DEPTH = 3
@@ -196,69 +197,6 @@ def create_image_lists(image_dir, list_dir, zoom_level):
   # print("#####DIR DIRECTORY: ",result['benign']['dir'])
   return result
 
-  # sub_dirs = [x[0] for x in gfile.Walk(image_dir)]
-  # # The root directory comes first, so skip it.
-  # is_root_dir = True
-  # for sub_dir in sub_dirs:
-  #   if is_root_dir:
-  #     is_root_dir = False
-  #     continue
-  #   extensions = ['jpg', 'jpeg', 'JPG', 'JPEG']
-  #   file_list = []
-  #   dir_name = os.path.basename(sub_dir)
-  #   if dir_name == image_dir:
-  #     continue
-  #   print("Looking for images in '" + dir_name + "'")
-  #   for extension in extensions:
-  #     file_glob = os.path.join(image_dir, dir_name, '*.' + extension)
-  #     file_list.extend(gfile.Glob(file_glob))
-  #   if not file_list:
-  #     tf.logging.warning('No files found')
-  #     continue
-  #   if len(file_list) < 20:
-  #     tf.logging.warning(
-  #         'WARNING: Folder has less than 20 images, which may cause issues.')
-  #   elif len(file_list) > MAX_NUM_IMAGES_PER_CLASS:
-  #     tf.logging.warning(
-  #         'WARNING: Folder {} has more than {} images. Some images will '
-  #         'never be selected.'.format(dir_name, MAX_NUM_IMAGES_PER_CLASS))
-  #   label_name = re.sub(r'[^a-z0-9]+', ' ', dir_name.lower())
-  #   training_images = []
-  #   testing_images = []
-  #   validation_images = []
-  #   for file_name in file_list:
-  #     base_name = os.path.basename(file_name)
-  #     # We want to ignore anything after '_nohash_' in the file name when
-  #     # deciding which set to put an image in, the data set creator has a way of
-  #     # grouping photos that are close variations of each other. For example
-  #     # this is used in the plant disease data set to group multiple pictures of
-  #     # the same leaf.
-  #     hash_name = re.sub(r'_nohash_.*$', '', file_name)
-  #     # This looks a bit magical, but we need to decide whether this file should
-  #     # go into the training, testing, or validation sets, and we want to keep
-  #     # existing files in the same set even if more files are subsequently
-  #     # added.
-  #     # To do that, we need a stable way of deciding based on just the file name
-  #     # itself, so we do a hash of that and then use that to generate a
-  #     # probability value that we use to assign it.
-  #     hash_name_hashed = hashlib.sha1(compat.as_bytes(hash_name)).hexdigest()
-  #     percentage_hash = ((int(hash_name_hashed, 16) %
-  #                         (MAX_NUM_IMAGES_PER_CLASS + 1)) *
-  #                        (100.0 / MAX_NUM_IMAGES_PER_CLASS))
-  #     if percentage_hash < validation_percentage:
-  #       validation_images.append(base_name)
-  #     elif percentage_hash < (testing_percentage + validation_percentage):
-  #       testing_images.append(base_name)
-  #     else:
-  #       training_images.append(base_name)
-  #   result[label_name] = {
-  #       'dir': dir_name,
-  #       'training': training_images,
-  #       'testing': testing_images,
-  #       'validation': validation_images,
-  #   }
-  # return result
-
 
 def get_image_path(image_lists, label_name, index, image_dir, category):
   """"Returns a path to an image for a label at the given index.
@@ -313,7 +251,6 @@ def get_bottleneck_path(image_lists, label_name, index, bottleneck_dir,
   return get_image_path(image_lists, label_name, index, bottleneck_dir,
                         category) + '.txt'
 
-#TODO: clear arguments
 def create_model_graph():
   """"Creates a graph from saved GraphDef file and returns a Graph object.
 
@@ -407,6 +344,12 @@ def ensure_dir_exists(dir_name):
 
 bottleneck_path_2_bottleneck_values = {}
 
+#takes in Image object and returns it in JPEG format
+def convertToJpeg(im):
+    with BytesIO() as f:
+        im.save(f, format='JPEG')
+        return f.getvalue()
+
 
 def create_bottleneck_file(bottleneck_path, image_lists, label_name, index,
                            image_dir, category, sess, jpeg_data_tensor,
@@ -419,8 +362,10 @@ def create_bottleneck_file(bottleneck_path, image_lists, label_name, index,
   if not gfile.Exists(image_path):
     tf.logging.fatal('File does not exist %s', image_path)
   # image_data = gfile.FastGFile(image_path, 'rb').read()
+
   image = Image.open(image_path)
-  image_data = np.array(image.convert('RGB'))[:,:,0:3]
+  # image_data = np.array(image.convert('RGB'))[:,:,0:3]
+  image_data = convertToJpeg(image)
   try:
     bottleneck_values = run_bottleneck_on_image(
         sess, image_data, jpeg_data_tensor, bottleneck_tensor)
@@ -639,7 +584,11 @@ def get_random_distorted_bottlenecks(
                                 category)
     if not gfile.Exists(image_path):
       tf.logging.fatal('File does not exist %s', image_path)
-    jpeg_data = gfile.FastGFile(image_path, 'rb').read()
+    # jpeg_data = gfile.FastGFile(image_path, 'rb').read()
+    image = Image.open(image_path)
+    # image_data = np.array(image.convert('RGB'))[:,:,0:3]
+    jpeg_data = convertToJpeg(image)
+
     # Note that we materialize the distorted_image_data as a numpy array before
     # sending running inference on the image. This involves 2 memory copies and
     # might be optimized in other implementations.
@@ -905,69 +854,69 @@ def create_model_info(architecture):
     ValueError: If architecture name is unknown.
   """
   architecture = architecture.lower()
-  if architecture == 'inception_v3':
-    # pylint: disable=line-too-long
-    data_url = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz'
-    # pylint: enable=line-too-long
-    bottleneck_tensor_name = 'pool_3/_reshape:0'
-    bottleneck_tensor_size = 2048
-    input_width = 299
-    input_height = 299
-    input_depth = 3
-    resized_input_tensor_name = 'Mul:0'
-    model_file_name = 'classify_image_graph_def.pb'
-    input_mean = 128
-    input_std = 128
-  elif architecture.startswith('mobilenet_'):
-    parts = architecture.split('_')
-    if len(parts) != 3 and len(parts) != 4:
-      tf.logging.error("Couldn't understand architecture name '%s'",
-                       architecture)
-      return None
-    version_string = parts[1]
-    if (version_string != '1.0' and version_string != '0.75' and
-        version_string != '0.50' and version_string != '0.25'):
-      tf.logging.error(
-          """"The Mobilenet version should be '1.0', '0.75', '0.50', or '0.25',
-  but found '%s' for architecture '%s'""",
-          version_string, architecture)
-      return None
-    size_string = parts[2]
-    if (size_string != '224' and size_string != '192' and
-        size_string != '160' and size_string != '128'):
-      tf.logging.error(
-          """The Mobilenet input size should be '224', '192', '160', or '128',
- but found '%s' for architecture '%s'""",
-          size_string, architecture)
-      return None
-    if len(parts) == 3:
-      is_quantized = False
-    else:
-      if parts[3] != 'quantized':
-        tf.logging.error(
-            "Couldn't understand architecture suffix '%s' for '%s'", parts[3],
-            architecture)
-        return None
-      is_quantized = True
-    data_url = 'http://download.tensorflow.org/models/mobilenet_v1_'
-    data_url += version_string + '_' + size_string + '_frozen.tgz'
-    bottleneck_tensor_name = 'MobilenetV1/Predictions/Reshape:0'
-    bottleneck_tensor_size = 1001
-    input_width = int(size_string)
-    input_height = int(size_string)
-    input_depth = 3
-    resized_input_tensor_name = 'input:0'
-    if is_quantized:
-      model_base_name = 'quantized_graph.pb'
-    else:
-      model_base_name = 'frozen_graph.pb'
-    model_dir_name = 'mobilenet_v1_' + version_string + '_' + size_string
-    model_file_name = os.path.join(model_dir_name, model_base_name)
-    input_mean = 127.5
-    input_std = 127.5
-  else:
-    tf.logging.error("Couldn't understand architecture name '%s'", architecture)
-    raise ValueError('Unknown architecture', architecture)
+  # if architecture == 'inception_v3':
+  # pylint: disable=line-too-long
+  data_url = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz'
+  # pylint: enable=line-too-long
+  bottleneck_tensor_name = 'pool_3/_reshape:0'
+  bottleneck_tensor_size = 2048
+  input_width = 299
+  input_height = 299
+  input_depth = 3
+  resized_input_tensor_name = 'Mul:0'
+  model_file_name = 'classify_image_graph_def.pb'
+  input_mean = 128
+  input_std = 128
+ #  elif architecture.startswith('mobilenet_'):
+ #    parts = architecture.split('_')
+ #    if len(parts) != 3 and len(parts) != 4:
+ #      tf.logging.error("Couldn't understand architecture name '%s'",
+ #                       architecture)
+ #      return None
+ #    version_string = parts[1]
+ #    if (version_string != '1.0' and version_string != '0.75' and
+ #        version_string != '0.50' and version_string != '0.25'):
+ #      tf.logging.error(
+ #          """"The Mobilenet version should be '1.0', '0.75', '0.50', or '0.25',
+ #  but found '%s' for architecture '%s'""",
+ #          version_string, architecture)
+ #      return None
+ #    size_string = parts[2]
+ #    if (size_string != '224' and size_string != '192' and
+ #        size_string != '160' and size_string != '128'):
+ #      tf.logging.error(
+ #          """The Mobilenet input size should be '224', '192', '160', or '128',
+ # but found '%s' for architecture '%s'""",
+ #          size_string, architecture)
+ #      return None
+ #    if len(parts) == 3:
+ #      is_quantized = False
+ #    else:
+ #      if parts[3] != 'quantized':
+ #        tf.logging.error(
+ #            "Couldn't understand architecture suffix '%s' for '%s'", parts[3],
+ #            architecture)
+ #        return None
+ #      is_quantized = True
+ #    data_url = 'http://download.tensorflow.org/models/mobilenet_v1_'
+ #    data_url += version_string + '_' + size_string + '_frozen.tgz'
+ #    bottleneck_tensor_name = 'MobilenetV1/Predictions/Reshape:0'
+ #    bottleneck_tensor_size = 1001
+ #    input_width = int(size_string)
+ #    input_height = int(size_string)
+ #    input_depth = 3
+ #    resized_input_tensor_name = 'input:0'
+ #    if is_quantized:
+ #      model_base_name = 'quantized_graph.pb'
+ #    else:
+ #      model_base_name = 'frozen_graph.pb'
+ #    model_dir_name = 'mobilenet_v1_' + version_string + '_' + size_string
+ #    model_file_name = os.path.join(model_dir_name, model_base_name)
+ #    input_mean = 127.5
+ #    input_std = 127.5
+ #  else:
+ #    tf.logging.error("Couldn't understand architecture name '%s'", architecture)
+ #    raise ValueError('Unknown architecture', architecture)
 
   return {
       'data_url': data_url,
@@ -1023,12 +972,6 @@ def main(_):
   # Prepare necessary directories  that can be used during training
   prepare_file_system()
 
-  # Gather information about the model architecture we'll be using.
-  # model_info = create_model_info(FLAGS.architecture)
-  # if not model_info:
-  #   tf.logging.error('Did not recognize architecture flag')
-  #   return -1
-
   # Set up the pre-trained graph.
   maybe_download_and_extract()
   graph, bottleneck_tensor, resized_image_tensor, jpeg_data_tensor = (
@@ -1047,19 +990,19 @@ def main(_):
     return -1
 
   # See if the command-line flags mean we're applying any distortions.
-  # do_distort_images = should_distort_images(
-  #     FLAGS.flip_left_right, FLAGS.random_crop, FLAGS.random_scale,
-  #     FLAGS.random_brightness)
-  do_distort_images = False
+  do_distort_images = should_distort_images(
+      FLAGS.flip_left_right, FLAGS.random_crop, FLAGS.random_scale,
+      FLAGS.random_brightness)
+  # do_distort_images = False
 
   with tf.Session(graph=graph) as sess:
     # Set up the image decoding sub-graph.
-    #TODO: no need??
+
     # jpeg_data_tensor, decoded_image_tensor = add_jpeg_decoding(
     #     INPUT_WIDTH, INPUT_HEIGHT,
     #     INPUT_DEPTH, INPUT_MEAN,
     #     INPUT_STD)
-    decoded_image_tensor='dummy'
+    # decoded_image_tensor='dummy'
 
     if do_distort_images:
       # We will be applying distortions, so setup the operations we'll need.
@@ -1196,7 +1139,7 @@ if __name__ == '__main__':
   parser.add_argument(
     '--list_dir',
     type=str,
-    default='split1',
+    default='',
     help='Path to folder containing splits.'
   )
   parser.add_argument(
@@ -1241,7 +1184,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--how_many_training_steps',
       type=int,
-      default=40,
+      default=4000,
       help='How many training steps to run before ending.'
   )
   parser.add_argument(
@@ -1249,18 +1192,6 @@ if __name__ == '__main__':
       type=float,
       default=0.01,
       help='How large a learning rate to use when training.'
-  )
-  parser.add_argument(
-      '--testing_percentage',
-      type=int,
-      default=10,
-      help='What percentage of images to use as a test set.'
-  )
-  parser.add_argument(
-      '--validation_percentage',
-      type=int,
-      default=10,
-      help='What percentage of images to use as a validation set.'
   )
   parser.add_argument(
       '--eval_step_interval',
@@ -1365,19 +1296,5 @@ if __name__ == '__main__':
       input pixels up or down by.\
       """
   )
-  parser.add_argument(
-      '--architecture',
-      type=str,
-      default='inception_v3',
-      help="""\
-      Which model architecture to use. 'inception_v3' is the most accurate, but
-      also the slowest. For faster or smaller models, chose a MobileNet with the
-      form 'mobilenet_<parameter size>_<input_size>[_quantized]'. For example,
-      'mobilenet_1.0_224' will pick a model that is 17 MB in size and takes 224
-      pixel input images, while 'mobilenet_0.25_128_quantized' will choose a much
-      less accurate, but smaller and faster network that's 920 KB on disk and
-      takes 128x128 images. See https://research.googleblog.com/2017/06/mobilenets-open-source-models-for.html
-      for more information on Mobilenet.\
-      """)
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
