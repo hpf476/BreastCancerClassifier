@@ -1,0 +1,36 @@
+2017-07-30 01:31:36.476548: Step 0: Train accuracy = 53.0%
+2017-07-30 01:31:36.476643: Step 0: Cross entropy = 0.673765
+2017-07-30 01:31:36.558465: Step 0: Validation accuracy = 60.0% (N=100)
+2017-07-30 01:31:37.286078: Step 10: Train accuracy = 77.0%
+2017-07-30 01:31:37.286164: Step 10: Cross entropy = 0.563196
+2017-07-30 01:31:37.357668: Step 10: Validation accuracy = 65.0% (N=100)
+2017-07-30 01:31:38.080921: Step 20: Train accuracy = 84.0%
+2017-07-30 01:31:38.081003: Step 20: Cross entropy = 0.497266
+2017-07-30 01:31:38.151881: Step 20: Validation accuracy = 66.0% (N=100)
+2017-07-30 01:31:38.870849: Step 30: Train accuracy = 83.0%
+2017-07-30 01:31:38.870933: Step 30: Cross entropy = 0.442526
+2017-07-30 01:31:38.941646: Step 30: Validation accuracy = 57.0% (N=100)
+2017-07-30 01:31:39.663516: Step 40: Train accuracy = 84.0%
+2017-07-30 01:31:39.663598: Step 40: Cross entropy = 0.429288
+2017-07-30 01:31:39.734070: Step 40: Validation accuracy = 70.0% (N=100)
+2017-07-30 01:31:40.451985: Step 50: Train accuracy = 86.0%
+2017-07-30 01:31:40.452085: Step 50: Cross entropy = 0.391451
+2017-07-30 01:31:40.522461: Step 50: Validation accuracy = 51.0% (N=100)
+2017-07-30 01:31:41.244473: Step 60: Train accuracy = 79.0%
+2017-07-30 01:31:41.244556: Step 60: Cross entropy = 0.436551
+2017-07-30 01:31:41.316571: Step 60: Validation accuracy = 71.0% (N=100)
+2017-07-30 01:31:42.035215: Step 70: Train accuracy = 86.0%
+2017-07-30 01:31:42.035300: Step 70: Cross entropy = 0.384940
+2017-07-30 01:31:42.106772: Step 70: Validation accuracy = 73.0% (N=100)
+2017-07-30 01:31:42.829715: Step 80: Train accuracy = 84.0%
+2017-07-30 01:31:42.829799: Step 80: Cross entropy = 0.382917
+2017-07-30 01:31:42.900157: Step 80: Validation accuracy = 65.0% (N=100)
+2017-07-30 01:31:43.620202: Step 90: Train accuracy = 85.0%
+2017-07-30 01:31:43.620287: Step 90: Cross entropy = 0.393419
+2017-07-30 01:31:43.694617: Step 90: Validation accuracy = 78.0% (N=100)
+2017-07-30 01:31:44.349360: Step 99: Train accuracy = 87.0%
+2017-07-30 01:31:44.349450: Step 99: Cross entropy = 0.355056
+2017-07-30 01:31:44.420061: Step 99: Validation accuracy = 65.0% (N=100)
+Final test accuracy = 85.8% (N=507)
+INFO:tensorflow:Froze 2 variables.
+Converted 2 variables to const ops.
