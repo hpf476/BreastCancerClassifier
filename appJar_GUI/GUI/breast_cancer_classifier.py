@@ -11,6 +11,8 @@ app = gui()
 def press(btn):
     app.setMessage("Classification result", """The image shows BENIGN breast cancer.""")
 
+def browse(btn):
+    app.openBox(title=None, dirName=None, fileTypes=None, asFile=False)
 
 # add & configure widgets - widgets get a name, to help referencing them later
 app.addLabel("title", "Breast Cancer Classifier")
@@ -18,11 +20,7 @@ app.setLabelBg("title", "light grey")
 
 
 
-
-
-app.addLabelOptionBox("Choose cancer image", ["- Please select -", "img01", "img02",
-                        "img03", "img04", "img05", "img06",
-                        "img07", "img08"])
+app.addButton("Choose Cancer Image", browse)
 
 app.startLabelFrame("Image Preview")
 #app.startLabelFrame("Image Preview", 0, 0)
