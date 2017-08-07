@@ -43,6 +43,7 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
+import thread
 import sys
 
 sys.path.append("../../")
@@ -89,6 +90,11 @@ parser.add_argument(
     default='DecodeJpeg/contents:0',
     help='Name of the input operation')
 
+FLAGS, unparsed = parser.parse_known_args()
+FLAGS.graph = app.openBox(title="Choose graph", dirName=None, fileTypes=[("tensorflow graph","*.pb")], asFile=False)
+FLAGS.labels = app.openBox(title="Choose labels", dirName=None, fileTypes=[("text file","*.txt")], asFile=False)
+
+
 #takes in Image object and returns it in JPEG format
 def convertToJpeg(im):
     with BytesIO() as f:
@@ -129,7 +135,11 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
       human_string = labels[node_id]
       score = predictions[node_id]
       print('%s (score = %.5f)' % (human_string, score))
-    return 0
+      if(node_id==0):
+        app.setMessage("Classification result_1", '%s (score = %.5f)' % (human_string, score))
+      else:
+        app.setMessage("Classification result_2", '%s (score = %.5f)' % (human_string, score))    
+  return
 
 
 def main(argv):
@@ -160,64 +170,48 @@ def main(argv):
   
   return
 
+def classify(image,unparsed):
+  
+  tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
+
 if __name__ == '__main__':
   '''
   python label_image.py --image /home/zhexian/Downloads/appJar/images/SOB_B_A-14-22549AB-40-001.png --graph /home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb --labels /home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt
   '''
-  # create a GUI variable called app
-  #app = gui()
 
-  # the title of the button will be received as a parameter
   def press(btn):
-    tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
-    app.setMessage("Classification result", """The image shows BENIGN breast cancer.""")
-  '''
-  def browse(btn):
-    image = app.openBox(title=None, dirName=None, fileTypes=None, asFile=False)
-    #print image #get full file path
+    image = app.openBox(title="Choose image", dirName=None, fileTypes=None, asFile=False)
     app.reloadImage("cancer_image", image)
-  '''
-
-  # add & configure widgets - widgets get a name, to help referencing them later
+    app.setMessage("Classification result_1", "Please wait...")
+    app.setMessage("Classification result_2", "Please wait...")
+    FLAGS.image = image
+    thread.start_new_thread(classify, (image,unparsed))
+  
+  
   app.addLabel("title", "Breast Cancer Classifier")
-  app.setLabelBg("title", "light grey")
-
-
-  #app.addButton("Choose Cancer Image", browse)
+  app.getLabelWidget("title").config(font=("Sans Serif", "18", "bold"))
+  
 
   app.startLabelFrame("Image Preview")
-  #app.startLabelFrame("Image Preview", 0, 0)
-  #app.addImage("cancer_image", "../images/SOB_B_A-14-22549AB-40-001.png")
 
-  image = app.openBox(title=None, dirName=None, fileTypes=None, asFile=False)
-
-  #print image #get full file path
-
-  app.addImage("cancer_image", image)
+  app.addImage("cancer_image", "../images/SOB_B_A-14-22549AB-40-001.png")
 
   app.stopLabelFrame()
 
-  app.addButton("Classify", press)
+  app.addButton("Choose Image & Classify", press)
 
-  app.addEmptyMessage("Classification result")
+  app.addLabel("result", "CLassification Result")
+  app.getLabelWidget("result").config(font=("Sans Serif", "18", "bold"))
+
+  app.addMessage("Classification result_1", "Please wait...")
+  app.addMessage("Classification result_2", "Please wait...")
+  app.setMessageWidth("Classification result_1", 500)
+  app.setMessageWidth("Classification result_2", 500)
 
   app.setStretch("both")
 
   app.setFont(14)
 
-  FLAGS, unparsed = parser.parse_known_args()
-  FLAGS.image = image
-  FLAGS.graph = "/home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb"
-  FLAGS.labels = "/home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt"
-
-  # start the GUI
   app.go()
-  '''
-  print("something")
-  FLAGS, unparsed = parser.parse_known_args()
-  FLAGS.image = image
-  FLAGS.graph = "/home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb"
-  FLAGS.labels = "/home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt"
-  tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
-  '''
+
 
