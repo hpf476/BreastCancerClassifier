@@ -25,6 +25,7 @@ Configuration settings
 # Path to the textfiles for the trainings and validation set
 train_file = '/home/ubuntu/workspace_ami/breakhis_data/train_val_test_60_12_28/non_shuffled/split1/200X_train.txt'
 val_file = '/home/ubuntu/workspace_ami/breakhis_data/train_val_test_60_12_28/non_shuffled/split1/200X_val.txt'
+test_file = '/home/ubuntu/workspace_ami/breakhis_data/train_val_test_60_12_28/non_shuffled/split1/200X_test.txt'
 replacementpath='/home/ubuntu/workspace_ami/breakhis_data/'
 
 is_training=True
@@ -32,7 +33,7 @@ is_training=True
 # Learning params
 learning_rate = 0.01
 num_epochs = 30
-batch_size = 180 #original is 128
+batch_size = 180 # original is 128
 
 # Network params
 dropout_rate = 0.5
@@ -112,36 +113,33 @@ saver = tf.train.Saver()
 train_generator = ImageDataGenerator_r(train_file,replacementpath,
                                      horizontal_flip = False, shuffle = True, nb_classes = num_classes)
 val_generator = ImageDataGenerator_r(val_file,replacementpath,  shuffle = False, nb_classes = num_classes)
+test_generator = ImageDataGenerator_r(test_file, replacementpath, shuffle = False, nb_classes = num_classes)
 
 # Get the number of training/validation steps per epoch
 train_batches_per_epoch = np.floor(train_generator.data_size / batch_size).astype(np.int16)
 val_batches_per_epoch = np.floor(val_generator.data_size / batch_size).astype(np.int16)
+test_batches_per_epoch = np.floor(test_generator.data_size / test_generator.data_size).astype(np.int16)
 
 # Start Tensorflow session
 with tf.Session() as sess:
+    # Initialize all variables
+    sess.run(tf.global_variables_initializer())
 
-  # Initialize all variables
-  sess.run(tf.global_variables_initializer())
+    # Add the model graph to TensorBoard
+    writer.add_graph(sess.graph)
 
-  # Add the model graph to TensorBoard
-  writer.add_graph(sess.graph)
-
-  # Load the pretrained weights into the non-trainable layer
-  model.load_initial_weights(sess)
-
-  print("{} Start training...".format(datetime.now()))
-  print("{} Open Tensorboard at --logdir {}".format(datetime.now(),
+    # Load the pretrained weights into the non-trainable layer
+    model.load_initial_weights(sess)
+    print("{} Start training...".format(datetime.now()))
+    print("{} Open Tensorboard at --logdir {}".format(datetime.now(),
                                                     filewriter_path))
 
-  # Loop over number of epochs
-  for epoch in range(num_epochs):
-
+    # Loop over number of epochs
+    for epoch in range(num_epochs):
         print("{} Epoch number: {}".format(datetime.now(), epoch+1))
-
         step = 1
 
         while step < train_batches_per_epoch:
-
             # Get a batch of images and labels
             batch_xs, batch_ys = train_generator.next_batch(batch_size)
 
@@ -184,3 +182,16 @@ with tf.Session() as sess:
         #save_path = saver.save(sess, checkpoint_name)
 
         #print("{} Model checkpoint saved at {}".format(datetime.now(), checkpoint_name))
+
+    print("{} Start Testing").format(datetime.now())
+    test_acc = 0.
+    test_count = 0
+    full_batch = test_generator.data_size
+    for _ in range(test_batches_per_epoch):
+        batch_tx, batch_ty = test_generator.next_batch(full_batch)
+        acc = sess.run(accuracy, feed_dict={x: batch_tx,
+                                            y: batch_ty,
+                                            keep_prob: 1.})
+        test_acc += acc
+        test_count +=1
+        print("{} defaultTest Accuracy = {:.4f}".format(datetime.now(), test_acc))

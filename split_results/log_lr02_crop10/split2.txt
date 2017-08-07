@@ -1,0 +1,36 @@
+main starting
+2017-08-07 16:54:49.958302: Step 0: Train accuracy = 60.0%
+2017-08-07 16:54:49.958411: Step 0: Cross entropy = 0.633557
+2017-08-07 16:54:50.042744: Step 0: Validation accuracy = 48.0% (N=100)
+2017-08-07 16:56:13.070977: Step 10: Train accuracy = 55.0%
+2017-08-07 16:56:13.071072: Step 10: Cross entropy = 1.059143
+2017-08-07 16:56:13.147228: Step 10: Validation accuracy = 54.0% (N=100)
+2017-08-07 16:57:36.091246: Step 20: Train accuracy = 62.0%
+2017-08-07 16:57:36.091337: Step 20: Cross entropy = 0.841497
+2017-08-07 16:57:36.164245: Step 20: Validation accuracy = 52.0% (N=100)
+2017-08-07 16:58:59.372586: Step 30: Train accuracy = 76.0%
+2017-08-07 16:58:59.372683: Step 30: Cross entropy = 0.515420
+2017-08-07 16:58:59.447518: Step 30: Validation accuracy = 59.0% (N=100)
+2017-08-07 17:00:22.552462: Step 40: Train accuracy = 82.0%
+2017-08-07 17:00:22.552561: Step 40: Cross entropy = 0.363933
+2017-08-07 17:00:22.626922: Step 40: Validation accuracy = 66.0% (N=100)
+2017-08-07 17:01:45.738177: Step 50: Train accuracy = 88.0%
+2017-08-07 17:01:45.738288: Step 50: Cross entropy = 0.319687
+2017-08-07 17:01:45.811755: Step 50: Validation accuracy = 72.0% (N=100)
+2017-08-07 17:03:08.829210: Step 60: Train accuracy = 80.0%
+2017-08-07 17:03:08.829304: Step 60: Cross entropy = 0.415303
+2017-08-07 17:03:08.902379: Step 60: Validation accuracy = 73.0% (N=100)
+2017-08-07 17:04:32.009326: Step 70: Train accuracy = 87.0%
+2017-08-07 17:04:32.009422: Step 70: Cross entropy = 0.340649
+2017-08-07 17:04:32.083557: Step 70: Validation accuracy = 64.0% (N=100)
+2017-08-07 17:05:54.982726: Step 80: Train accuracy = 80.0%
+2017-08-07 17:05:54.982826: Step 80: Cross entropy = 0.423341
+2017-08-07 17:05:55.058381: Step 80: Validation accuracy = 71.0% (N=100)
+2017-08-07 17:07:18.230968: Step 90: Train accuracy = 84.0%
+2017-08-07 17:07:18.231071: Step 90: Cross entropy = 0.315263
+2017-08-07 17:07:18.305535: Step 90: Validation accuracy = 65.0% (N=100)
+2017-08-07 17:08:33.100235: Step 99: Train accuracy = 87.0%
+2017-08-07 17:08:33.100331: Step 99: Cross entropy = 0.325472
+2017-08-07 17:08:33.173486: Step 99: Validation accuracy = 78.0% (N=100)
+Final test accuracy = 82.6% (N=507)
+Converted 2 variables to const ops.

@@ -1,0 +1,56 @@
+main starting
+100 bottleneck files created.
+200 bottleneck files created.
+300 bottleneck files created.
+400 bottleneck files created.
+500 bottleneck files created.
+600 bottleneck files created.
+700 bottleneck files created.
+800 bottleneck files created.
+900 bottleneck files created.
+1000 bottleneck files created.
+1100 bottleneck files created.
+1200 bottleneck files created.
+1300 bottleneck files created.
+1400 bottleneck files created.
+1500 bottleneck files created.
+1600 bottleneck files created.
+1700 bottleneck files created.
+1800 bottleneck files created.
+1900 bottleneck files created.
+2000 bottleneck files created.
+2017-08-07 20:05:41.749057: Step 0: Train accuracy = 58.0%
+2017-08-07 20:05:41.749157: Step 0: Cross entropy = 0.666421
+2017-08-07 20:05:41.833006: Step 0: Validation accuracy = 50.0% (N=100)
+2017-08-07 20:05:42.589423: Step 10: Train accuracy = 81.0%
+2017-08-07 20:05:42.589508: Step 10: Cross entropy = 0.550873
+2017-08-07 20:05:42.663360: Step 10: Validation accuracy = 62.0% (N=100)
+2017-08-07 20:05:43.407220: Step 20: Train accuracy = 81.0%
+2017-08-07 20:05:43.407303: Step 20: Cross entropy = 0.487870
+2017-08-07 20:05:43.481800: Step 20: Validation accuracy = 62.0% (N=100)
+2017-08-07 20:05:44.226956: Step 30: Train accuracy = 80.0%
+2017-08-07 20:05:44.227037: Step 30: Cross entropy = 0.487756
+2017-08-07 20:05:44.299196: Step 30: Validation accuracy = 61.0% (N=100)
+2017-08-07 20:05:45.042853: Step 40: Train accuracy = 85.0%
+2017-08-07 20:05:45.042943: Step 40: Cross entropy = 0.421247
+2017-08-07 20:05:45.115708: Step 40: Validation accuracy = 75.0% (N=100)
+2017-08-07 20:05:45.857581: Step 50: Train accuracy = 81.0%
+2017-08-07 20:05:45.857666: Step 50: Cross entropy = 0.474180
+2017-08-07 20:05:45.930160: Step 50: Validation accuracy = 63.0% (N=100)
+2017-08-07 20:05:46.667356: Step 60: Train accuracy = 86.0%
+2017-08-07 20:05:46.667445: Step 60: Cross entropy = 0.399919
+2017-08-07 20:05:46.739762: Step 60: Validation accuracy = 72.0% (N=100)
+2017-08-07 20:05:47.489017: Step 70: Train accuracy = 83.0%
+2017-08-07 20:05:47.489103: Step 70: Cross entropy = 0.431983
+2017-08-07 20:05:47.560864: Step 70: Validation accuracy = 64.0% (N=100)
+2017-08-07 20:05:48.301102: Step 80: Train accuracy = 84.0%
+2017-08-07 20:05:48.301185: Step 80: Cross entropy = 0.357038
+2017-08-07 20:05:48.375245: Step 80: Validation accuracy = 59.0% (N=100)
+2017-08-07 20:05:49.108703: Step 90: Train accuracy = 79.0%
+2017-08-07 20:05:49.108795: Step 90: Cross entropy = 0.418165
+2017-08-07 20:05:49.180905: Step 90: Validation accuracy = 67.0% (N=100)
+2017-08-07 20:05:49.844701: Step 99: Train accuracy = 89.0%
+2017-08-07 20:05:49.844789: Step 99: Cross entropy = 0.359156
+2017-08-07 20:05:49.919186: Step 99: Validation accuracy = 71.0% (N=100)
+Final test accuracy = 87.0% (N=507)
+Converted 2 variables to const ops.
