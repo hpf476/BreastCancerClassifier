@@ -197,10 +197,9 @@ if __name__ == '__main__':
 
   # start the GUI
   app.go()
-'''
+
   FLAGS, unparsed = parser.parse_known_args()
   FLAGS.image = image
   FLAGS.graph = "/home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb"
   FLAGS.labels = "/home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt"
   tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
-'''

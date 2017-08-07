@@ -53,6 +53,8 @@ import tensorflow as tf
 from PIL import Image
 from io import BytesIO
 
+app = gui()
+
 parser = argparse.ArgumentParser()
 
 '''
@@ -127,7 +129,6 @@ def run_graph(image_data, labels, input_layer_name, output_layer_name,
       human_string = labels[node_id]
       score = predictions[node_id]
       print('%s (score = %.5f)' % (human_string, score))
-
     return 0
 
 
@@ -156,35 +157,44 @@ def main(argv):
 
   run_graph(image_data, labels, FLAGS.input_layer, FLAGS.output_layer,
             FLAGS.num_top_predictions)
-
+  
+  return
 
 if __name__ == '__main__':
   '''
   python label_image.py --image /home/zhexian/Downloads/appJar/images/SOB_B_A-14-22549AB-40-001.png --graph /home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb --labels /home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt
   '''
   # create a GUI variable called app
-  app = gui()
-
+  #app = gui()
 
   # the title of the button will be received as a parameter
   def press(btn):
+    tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
     app.setMessage("Classification result", """The image shows BENIGN breast cancer.""")
-
+  '''
   def browse(btn):
     image = app.openBox(title=None, dirName=None, fileTypes=None, asFile=False)
     #print image #get full file path
     app.reloadImage("cancer_image", image)
+  '''
 
   # add & configure widgets - widgets get a name, to help referencing them later
   app.addLabel("title", "Breast Cancer Classifier")
   app.setLabelBg("title", "light grey")
 
 
-  app.addButton("Choose Cancer Image", browse)
+  #app.addButton("Choose Cancer Image", browse)
 
   app.startLabelFrame("Image Preview")
   #app.startLabelFrame("Image Preview", 0, 0)
-  app.addImage("cancer_image", "../images/SOB_B_A-14-22549AB-40-001.png")
+  #app.addImage("cancer_image", "../images/SOB_B_A-14-22549AB-40-001.png")
+
+  image = app.openBox(title=None, dirName=None, fileTypes=None, asFile=False)
+
+  #print image #get full file path
+
+  app.addImage("cancer_image", image)
+
   app.stopLabelFrame()
 
   app.addButton("Classify", press)
@@ -195,12 +205,19 @@ if __name__ == '__main__':
 
   app.setFont(14)
 
+  FLAGS, unparsed = parser.parse_known_args()
+  FLAGS.image = image
+  FLAGS.graph = "/home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb"
+  FLAGS.labels = "/home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt"
+
   # start the GUI
   app.go()
-'''
+  '''
+  print("something")
   FLAGS, unparsed = parser.parse_known_args()
   FLAGS.image = image
   FLAGS.graph = "/home/zhexian/Downloads/BreastCancerClassifier/output_graph.pb"
   FLAGS.labels = "/home/zhexian/Downloads/BreastCancerClassifier/output_labels.txt"
   tf.app.run(main=main, argv=sys.argv[:1]+unparsed)
-'''
+  '''
+
